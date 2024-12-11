@@ -28,6 +28,7 @@ PLATEAUの3D都市モデルを用いたゲーム開発、映像製作、シミ�
 - [8. 配置したアセットの編集機能](#8-配置したアセットの編集機能)
   - [8-1. 広告変更機能](#8-1-広告変更機能)
   - [8-2. 建築物カスタマイズ機能](#8-2-建築物カスタマイズ機能)
+  - [8-3. 電柱の結線機能](#8-3-電柱の結線機能)
 - [9. カメラインタラクション機能](#9-カメラインタラクション機能)
   - [9-1. 操作方法](#9-1-操作方法)
   - [9-2. カメラのデフォルト位置の変更](#9-2-カメラのデフォルト位置の変更)
@@ -632,6 +633,29 @@ v2.0.0-alpha時点では以下の5種類の建築物アセットを提供して�
 
 > [!WARNING]
 > 現在のバージョンではヒエラルキーからのドラッグ＆ドロップによるPrefab保存、およびプレハブモードでのPrefabの編集はサポートされていません。
+
+## 8.3 電柱の結線機能
+
+配置可能アセットの中には、電柱アセットを配置して電柱の電線同士を結線することができる電柱コンポーネント ( `PlateauSandboxElectricPost` ) がアタッチされているものがあります。
+電線は配置時に自動で他の電柱に結線されます。また、配置後インスペクタより手動で解除、接続が可能です。
+
+<img width="400" alt="電柱アセット" src="../Documentation~/Sandbox Images/sandbox_electricpost.png">
+
+### 電柱の種類
+
+電柱には以下の３種類の電柱アセットが用意されています。
+
+- StreetFurniture_ElectricPost_01
+
+<img width="400" alt="電柱アセット" src="../Documentation~/Sandbox Images/sandbox_electricpost_type01.png">
+
+- StreetFurniture_ElectricPost_02
+
+<img width="400" alt="電柱アセット" src="../Documentation~/Sandbox Images/sandbox_electricpost_type02.png">
+
+- StreetFurniture_ElectricPost_03
+
+<img width="400" alt="電柱アセット" src="../Documentation~/Sandbox Images/sandbox_electricpost_type03.png">
 
 # 9. カメラインタラクション機能
 
