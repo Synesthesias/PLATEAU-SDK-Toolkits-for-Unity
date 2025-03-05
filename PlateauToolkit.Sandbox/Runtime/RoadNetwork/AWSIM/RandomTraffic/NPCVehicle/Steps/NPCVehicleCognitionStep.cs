@@ -1111,7 +1111,7 @@ namespace AWSIM.TrafficSimulation
 
             Profiler.EndSample();
 
-            if (PlateauSandboxTrafficManagerConstants.USE_RIGHT_OF_WAYS)
+            if (PlateauSandboxTrafficManagerConstants.USE_RIGHT_OF_WAYS_ON_RUNTIME)
             {
                 Profiler.BeginSample("Cognition.CheckRightOfWay");
 
