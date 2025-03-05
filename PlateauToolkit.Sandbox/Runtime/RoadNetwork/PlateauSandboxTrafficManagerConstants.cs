@@ -53,7 +53,7 @@
         /// <summary>
         /// 実行後にRightOfWaysを自動生成
         /// </summary>
-        public static readonly bool USE_RIGHT_OF_WAYS = true;
+        public static readonly bool USE_RIGHT_OF_WAYS = false;
 
         /// <summary>
         /// DemをGround Layerとして設定
