@@ -1,4 +1,8 @@
-﻿namespace PlateauToolkit.Sandbox.RoadNetwork
+﻿using Codice.CM.WorkspaceServer.Tree.GameUI.Checkin.Updater;
+using PLATEAU.RoadNetwork.Structure;
+using UnityEngine;
+
+namespace PlateauToolkit.Sandbox.RoadNetwork
 {
     public class PlateauSandboxTrafficManagerConstants
     {
@@ -54,6 +58,11 @@
         /// 実行後にRightOfWaysを自動生成
         /// </summary>
         public static readonly bool USE_RIGHT_OF_WAYS = true;
+
+        /// <summary>
+        /// PlateauSandboxTrafficManagerのm_EnableRightOfWays
+        /// </summary>
+        public static bool USE_RIGHT_OF_WAYS_ON_RUNTIME = true;
 
         /// <summary>
         /// DemをGround Layerとして設定
