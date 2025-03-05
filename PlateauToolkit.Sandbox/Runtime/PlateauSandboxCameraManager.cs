@@ -238,6 +238,10 @@ namespace PlateauToolkit.Sandbox
                 return;
             }
 
+            if (Camera.main == null)
+            {
+                return;
+            }
             m_LastMainCamera = Camera.main;
             m_LastMainCamera.enabled = false;
             m_SubCamera.enabled = true;
