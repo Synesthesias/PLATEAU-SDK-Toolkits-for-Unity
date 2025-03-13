@@ -471,6 +471,27 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
             m_Generator.facadeConstructor = (FacadeConstructor)EditorGUILayout.ObjectField("FacadeConstructor", m_Generator.facadeConstructor, typeof(ScriptableObject), allowSceneObjects: true);
             m_Generator.roofPlanner = (RoofPlanner)EditorGUILayout.ObjectField("RoofPlanner", m_Generator.roofPlanner, typeof(ScriptableObject), allowSceneObjects: true);
             m_Generator.roofConstructor = (RoofConstructor)EditorGUILayout.ObjectField("RoofConstructor", m_Generator.roofConstructor, typeof(ScriptableObject), allowSceneObjects: true);
+
+            EditorGUILayout.Space(5);
+            GuiUtility.Separator(m_SeparatorColor);
+            EditorGUILayout.Space(5);
+
+            EditorGUI.BeginChangeCheck();
+
+            var placementDirection = (PlateauSandboxPlaceableHandler.GroundPlacementDirection)EditorGUILayout.EnumPopup(
+                "Ground Placement Direction",
+                m_Generator.groundPlacementDirection);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                m_Generator.groundPlacementDirection = placementDirection;
+                changedValue = true;
+            }
+
+            if (changedValue)
+            {
+                EditorUtility.SetDirty(m_Generator);
+            }
         }
 
         private void UpdateShaderParam()
