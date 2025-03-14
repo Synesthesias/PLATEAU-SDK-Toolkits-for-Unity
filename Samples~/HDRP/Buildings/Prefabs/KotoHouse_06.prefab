@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3153740913944185461
+--- !u!1 &8335008147579443523
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 361146782124781491}
-  - component: {fileID: 528747013574659287}
-  - component: {fileID: 1743780020135248891}
-  - component: {fileID: 680516460319388489}
+  - component: {fileID: 4047968562575670276}
+  - component: {fileID: 279129092568447298}
+  - component: {fileID: 2210518554951454603}
+  - component: {fileID: 1309975505094043676}
   m_Layer: 0
-  m_Name: KotoHouse_06
+  m_Name: KotoHouse_09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &361146782124781491
+--- !u!4 &4047968562575670276
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3153740913944185461}
+  m_GameObject: {fileID: 8335008147579443523}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -2.98, y: -3.6, z: -0.01}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -3.35, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5339773092441177812}
+  m_Father: {fileID: 3871368047803181152}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!33 &528747013574659287
+--- !u!33 &279129092568447298
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3153740913944185461}
-  m_Mesh: {fileID: 6670744357569237902, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
---- !u!23 &1743780020135248891
+  m_GameObject: {fileID: 8335008147579443523}
+  m_Mesh: {fileID: 6073214111748776304, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
+--- !u!23 &2210518554951454603
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3153740913944185461}
+  m_GameObject: {fileID: 8335008147579443523}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -84,13 +84,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &680516460319388489
+--- !u!65 &1309975505094043676
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3153740913944185461}
+  m_GameObject: {fileID: 8335008147579443523}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -103,9 +103,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.073118925, y: 1.6792521, z: 0.9394829}
-  m_Center: {x: -3.6296654, y: -0.017842295, z: 2.999408}
---- !u!1001 &5588991513294559551
+  m_Size: {x: 8.252303, y: 3.6407177, z: 2.0491178}
+  m_Center: {x: -0.000000005587808, y: -0.0000007152559, z: 4.4815097}
+--- !u!1001 &3617346831528644491
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -113,77 +113,82 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: -7511558181221131132, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - target: {fileID: 919132149155446097, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       propertyPath: m_Name
-      value: KotoHouse_06
+      value: KotoHouse_09
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 361146782124781491}
+      addedObject: {fileID: 4047968562575670276}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2082439977797290660}
-  m_SourcePrefab: {fileID: 100100000, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
---- !u!1 &4706683799689585774 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
-  m_PrefabInstance: {fileID: 5588991513294559551}
+      addedObject: {fileID: -1023288233497634480}
+  m_SourcePrefab: {fileID: 100100000, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
+--- !u!4 &3871368047803181152 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
+  m_PrefabInstance: {fileID: 3617346831528644491}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2082439977797290660
+--- !u!1 &4535701067616973530 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e91b264baff95464f9d0aa440d0fab79, type: 3}
+  m_PrefabInstance: {fileID: 3617346831528644491}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1023288233497634480
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4706683799689585774}
+  m_GameObject: {fileID: 4535701067616973530}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f595d76393ef4794c9cb608a7e1b6720, type: 3}
@@ -382,13 +387,6 @@ MonoBehaviour:
     hasBalconyBack: 0
   complexOfficeBuildingParams:
     spandrelHeight: 1.25
-  complexHotelParams:
-    hasWindowLeft: 0
-    hasWindowRight: 0
-    roofThickness: 0
-  complexHotelShaderParams:
-    textureOffsetX: 0
-    textureOffsetY: 0
   complexBuildingVertexColorPalette:
     boundaryWallColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     apartmentWallColor: {r: 1, g: 1, b: 1, a: 1}
@@ -408,13 +406,6 @@ MonoBehaviour:
     commercialBuildingWindowGlassColor: {r: 1, g: 1, b: 1, a: 1}
     commercialBuildingRoofColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
     commercialBuildingRoofSideColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
-    hotelWallColor: {r: 1, g: 1, b: 1, a: 1}
-    hotelWindowTopAndBottomWallColor: {r: 1, g: 1, b: 1, a: 1}
-    hotelWindowFrameColor: {r: 0, g: 0, b: 0, a: 1}
-    hotelWindowFrameGlassColor: {r: 1, g: 1, b: 1, a: 1}
-    hotelRoofColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
-    hotelRoofSideColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
-    hotelRoofSideFrontColor: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   complexBuildingVertexColorMaterialPalette:
     vertexWall: {fileID: 0}
     vertexWindow: {fileID: 0}
@@ -438,19 +429,7 @@ MonoBehaviour:
     commercialBuildingWindowGlass: {fileID: 0}
     commercialBuildingRoof: {fileID: 0}
     commercialBuildingRoofSide: {fileID: 0}
-    hotelWall: {fileID: 0}
-    hotelWindowTopAndBottomWall: {fileID: 0}
-    hotelWindowFrame: {fileID: 0}
-    hotelWindowGlass: {fileID: 0}
-    hotelRoof: {fileID: 0}
-    hotelRoofSide: {fileID: 0}
-    hotelRoofSideFront: {fileID: 0}
   facadePlanner: {fileID: 0}
   facadeConstructor: {fileID: 0}
   roofPlanner: {fileID: 0}
   roofConstructor: {fileID: 0}
---- !u!4 &5339773092441177812 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a09177c2ba1a48e4b99d530556ad7020, type: 3}
-  m_PrefabInstance: {fileID: 5588991513294559551}
-  m_PrefabAsset: {fileID: 0}
