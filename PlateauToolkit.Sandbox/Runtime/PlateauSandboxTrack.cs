@@ -43,6 +43,17 @@ namespace PlateauToolkit.Sandbox
             }
         }
 
+        public float CalcSplineLength()
+        {
+            float length = 0f;
+            foreach (Spline spline in SplineContainer.Splines)
+            {
+                length += spline.GetLength();
+            }
+            return length;
+        }
+
+
         /// <summary>
         /// The speed limit on the track.
         /// </summary>
@@ -274,19 +285,30 @@ namespace PlateauToolkit.Sandbox
 
         public Vector3 GetPositionBySplineContainerT(float splineContainerT)
         {
+            return GetPositionBySplineContainerT(splineContainerT, Vector3.zero);
+        }
+
+        public Vector3 GetPositionBySplineContainerT(float splineContainerT, Vector3 positionOffset)
+        {
             (int splineIndex, float t) = GetSplineIndex(splineContainerT);
 
             Spline spline = SplineContainer[splineIndex];
-            return transform.TransformPoint(spline.EvaluatePosition(t));
+            return transform.TransformPoint(spline.EvaluatePosition(t)) + positionOffset;
         }
 
+
         public (Vector3, Vector3) GetPositionAndForwardBySplineContainerT(float splineContainerT)
+        {
+            return GetPositionAndForwardBySplineContainerT(splineContainerT, Vector3.zero);
+        }
+
+        public (Vector3, Vector3) GetPositionAndForwardBySplineContainerT(float splineContainerT, Vector3 positionOffset)
         {
             (int splineIndex, float t) = GetSplineIndex(splineContainerT);
 
             Spline spline = SplineContainer[splineIndex];
             return (
-                transform.TransformPoint(spline.EvaluatePosition(t)),
+                transform.TransformPoint(spline.EvaluatePosition(t)) + positionOffset,
                 transform.TransformDirection(spline.EvaluateTangent(t)).normalized);
         }
 
