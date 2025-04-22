@@ -43,6 +43,17 @@ namespace PlateauToolkit.Sandbox
             }
         }
 
+        public float CalcSplineLength()
+        {
+            float length = 0f;
+            foreach (Spline spline in SplineContainer.Splines)
+            {
+                length += spline.GetLength();
+            }
+            return length;
+        }
+
+
         /// <summary>
         /// The speed limit on the track.
         /// </summary>
