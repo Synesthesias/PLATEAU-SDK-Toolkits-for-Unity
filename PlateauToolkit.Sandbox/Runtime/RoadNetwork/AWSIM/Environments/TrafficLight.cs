@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -283,6 +283,9 @@ namespace AWSIM
         [SerializeField]
         public RnDataTrafficLight rnTrafficLight;
 
+        public delegate void DelOnChangedBulbColor(in Color color);
+        public event DelOnChangedBulbColor evOnChangedBulbColor;
+
         //RoadNetworkDataGetter m_RoadNetworkGetter;
         public RoadNetworkDataGetter RnGetter
         {
@@ -370,6 +373,7 @@ namespace AWSIM
                 var inputData = inputDatas[i];
                 SetBulbData(inputData);
             }
+            evOnChangedBulbColor?.Invoke(GetBulbColor());
         }
 
         /// <summary>
