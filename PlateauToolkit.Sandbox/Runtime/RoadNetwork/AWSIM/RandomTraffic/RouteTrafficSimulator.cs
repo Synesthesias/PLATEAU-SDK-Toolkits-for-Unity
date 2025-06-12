@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 namespace AWSIM.TrafficSimulation
 {
@@ -27,7 +28,7 @@ namespace AWSIM.TrafficSimulation
     /// <summary>
     /// Simulate NPC traffic. (Currently only Vehicle is supported)
     /// - Use provided route
-    /// - Continue driving randomly when the route ends 
+    /// - Continue driving randomly when the route ends
     /// - Traffic light control based on the Vienna Convention
     /// </summary>
     public class RouteTrafficSimulator : ITrafficSimulator
@@ -49,7 +50,7 @@ namespace AWSIM.TrafficSimulation
             spawnPriority += priority;
         }
 
-        public void ResetPriority() 
+        public void ResetPriority()
         {
             spawnPriority = 0;
         }
@@ -76,15 +77,15 @@ namespace AWSIM.TrafficSimulation
             maximumSpawns = maxSpawns;
             spawnIntervalTime = spawnInterval;
             npcVehicleSimulator = vehicleSimulator;
-            TrafficLane[] spawnableLane = {route[0]};
-            npcVehicleSpawner = new NPCVehicleSpawner(parent, npcPrefabs, spawnableLane); 
+            TrafficLane[] spawnableLane = npcRoute;
+            npcVehicleSpawner = new NPCVehicleSpawner(parent, npcPrefabs, spawnableLane);
         }
 
         public void GetRandomSpawnInfo(out NPCVehicleSpawnPoint spawnPoint, out GameObject prefab)
         {
             // NPC prefab is randomly chosen and is fixed until it is spawned. This is due to avoid prefab "bound" race conditions
-            // when smaller cars will always be chosen over larger ones while the spawning process checks if the given prefab can be 
-            // put in the given position. 
+            // when smaller cars will always be chosen over larger ones while the spawning process checks if the given prefab can be
+            // put in the given position.
             if (nextPrefabToSpawn == null)
             {
                 nextPrefabToSpawn = npcVehicleSpawner.GetRandomPrefab();
@@ -99,13 +100,13 @@ namespace AWSIM.TrafficSimulation
         public bool Spawn(GameObject prefab, NPCVehicleSpawnPoint spawnPoint, out NPCVehicle spawnedVehicle)
         {
             if(IsMaximumSpawnsNumberReached()) {
-                spawnedVehicle = null; 
+                spawnedVehicle = null;
                 return false;
             };
 
             if (npcVehicleSimulator.VehicleStates.Count >= npcVehicleSimulator.maxVehicleCount)
             {
-                spawnedVehicle = null; 
+                spawnedVehicle = null;
                 return false;
             }
 
@@ -120,11 +121,11 @@ namespace AWSIM.TrafficSimulation
             npcVehicleSimulator.Register(vehicle, route.ToList<TrafficLane>(), spawnPoint.WaypointIndex);
             nextPrefabToSpawn = null;
             lastSpawnTime = Time.time;
-            
+
             if(maximumSpawns > 0)
                 currentSpawnNumber++;
-            
-            spawnedVehicle = vehicle; 
+
+            spawnedVehicle = vehicle;
             return true;
         }
 
