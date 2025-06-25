@@ -81,6 +81,11 @@ namespace AWSIM
         /// </summary>
         public uint VehicleID { get; set; }
 
+        /// <summary>
+        /// Check if this vehicle is a motorcycle based on prefab name.
+        /// </summary>
+        public bool IsMotorcycle => gameObject.name.Contains("Motorcycle");
+
         // dynamics settings const values.
         const float maxSteerAngle = 40f;                    // deg
         const float maxSteerSpeed = 60f;                    // deg/s
@@ -97,14 +102,30 @@ namespace AWSIM
                 else
                 {
                     var rigidbody = gameObject.AddComponent<Rigidbody>();
-                    rigidbody.mass = 3000;
-                    rigidbody.drag = 0;
-                    rigidbody.angularDrag = 0;
-                    rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-                    rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-                    rigidbody.automaticCenterOfMass = true;
-                    rigidbody.useGravity = true;
-                    rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
+                    // バイクの場合は物理設定を調整
+                    if (IsMotorcycle)
+                    {
+                        rigidbody.mass = 500;  // 軽量化
+                        rigidbody.drag = 5;    // 抵抗を増加
+                        rigidbody.angularDrag = 10;  // 回転抵抗を増加
+                        rigidbody.interpolation = RigidbodyInterpolation.None;  // 補間を無効化
+                        rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+                        rigidbody.automaticCenterOfMass = true;
+                        rigidbody.useGravity = true;  // 重力有効化で地面に落とす
+                        rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                    }
+                    else
+                    {
+                        rigidbody.mass = 3000;
+                        rigidbody.drag = 0;
+                        rigidbody.angularDrag = 0;
+                        rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+                        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+                        rigidbody.automaticCenterOfMass = true;
+                        rigidbody.useGravity = true;
+                        rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                    }
                     return rigidbody;
                 }
             }
@@ -263,6 +284,11 @@ namespace AWSIM
         {
             rigidbody.MovePosition(new Vector3(position.x, rigidbody.position.y, position.z));
             var velocityY = Mathf.Min(rigidbody.velocity.y, maxVerticalSpeed);
+            if (IsMotorcycle)
+            {
+                // バイクの場合は、下向きの力を加えて地面に押し付ける
+                velocityY = -2f;
+            }
             rigidbody.velocity = new Vector3(0, velocityY, 0);
         }
 
@@ -320,7 +346,7 @@ namespace AWSIM
             visualObjectRoot.SetActive(isActive);
         }
 
-        // Draw bounding box 
+        // Draw bounding box
         private void OnDrawGizmos()
         {
             // Cache Gizmos default values.
