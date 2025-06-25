@@ -176,7 +176,7 @@ MonoBehaviour:
     m_Value: 2
   limitMax:
     m_OverrideState: 1
-    m_Value: 13.3
+    m_Value: 12.85782
   curveMap:
     m_OverrideState: 1
     m_Value:
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa3b8214f75b354e9ba2caadd022259, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   quality:
     m_OverrideState: 1
     m_Value: 2
@@ -702,10 +702,10 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0
   contrast:
     m_OverrideState: 1
-    m_Value: 40
+    m_Value: 0
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 0.97547174, g: 1, b: 0.9933615, a: 1}
@@ -714,7 +714,7 @@ MonoBehaviour:
     m_Value: 0
   saturation:
     m_OverrideState: 1
-    m_Value: 80
+    m_Value: 0
 --- !u!114 &5671803632296313252
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -731,7 +731,7 @@ MonoBehaviour:
   interCascadeBorders: 1
   maxShadowDistance:
     m_OverrideState: 1
-    m_Value: 20000
+    m_Value: 1000
   directionalTransmissionMultiplier:
     m_OverrideState: 0
     m_Value: 1
