@@ -287,7 +287,7 @@ namespace AWSIM
             if (IsMotorcycle)
             {
                 // バイクの場合は、下向きの力を加えて地面に押し付ける
-                velocityY = -2f;
+                velocityY = -5f;
             }
             rigidbody.velocity = new Vector3(0, velocityY, 0);
         }
