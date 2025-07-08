@@ -130,7 +130,8 @@ namespace AWSIM.TrafficSimulation
                         routeTrafficSimConf.route,
                         npcVehicleSimulator,
                         routeTrafficSimConf.maximumSpawns,
-                        routeTrafficSimConf.spawnIntervalTime
+                        routeTrafficSimConf.spawnIntervalTime,
+                        routeTrafficSimConf.spawnableLanes
                     );
                     routeTs.enabled = routeTrafficSimConf.enabled;
                     trafficSimulatorNodes.Add(routeTs);
@@ -220,7 +221,11 @@ namespace AWSIM.TrafficSimulation
                 trafficSimulator.GetRandomSpawnInfo(out var spawnPoint, out var prefab);
                 if (spawnLanes.ContainsKey(spawnPoint))
                 {
-                    spawnLanes[spawnPoint].Add(trafficSimulator, prefab);
+                    // 同じtrafficSimulatorが既に存在する場合は追加しない
+                    if (!spawnLanes[spawnPoint].ContainsKey(trafficSimulator))
+                    {
+                        spawnLanes[spawnPoint].Add(trafficSimulator, prefab);
+                    }
                 }
                 else
                 {

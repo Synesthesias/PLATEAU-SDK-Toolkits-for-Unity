@@ -3,6 +3,8 @@ using PlateauToolkit.Sandbox;
 using PlateauToolkit.Sandbox.RoadNetwork;
 using System;
 using AWSIM.TrafficSimulation;
+using System.ComponentModel;
+using System.Linq;
 
 namespace AWSIM
 {
@@ -109,8 +111,8 @@ namespace AWSIM
                         rigidbody.mass = 500;  // 軽量化
                         rigidbody.drag = 5;    // 抵抗を増加
                         rigidbody.angularDrag = 10;  // 回転抵抗を増加
-                        rigidbody.interpolation = RigidbodyInterpolation.None;  // 補間を無効化
-                        rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+                        rigidbody.interpolation = RigidbodyInterpolation.Interpolate;  // 補間を有効化
+                        rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;  // 連続検出
                         rigidbody.automaticCenterOfMass = true;
                         rigidbody.useGravity = true;  // 重力有効化で地面に落とす
                         rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -205,14 +207,17 @@ namespace AWSIM
             var physicMaterial = Resources.Load<PhysicMaterial>("VehiclePhisicMaterial");
             if (collider != null)
             {
-                collider.excludeLayers = ~LayerMask.GetMask(PlateauSandboxTrafficManagerConstants.LAYER_MASK_GROUND);  // Everything but ground
+                // 車両同士の衝突を有効にするため、Vehicleレイヤーとの衝突も許可
+                collider.excludeLayers = ~LayerMask.GetMask(PlateauSandboxTrafficManagerConstants.LAYER_MASK_GROUND, "Vehicle");
                 collider.material = physicMaterial;
+                collider.isTrigger = false; // 物理衝突を有効
             }
             else
             {
                 var boxCollider =  visualObjectRoot.AddComponent<BoxCollider>();
-                boxCollider.excludeLayers = ~LayerMask.GetMask(PlateauSandboxTrafficManagerConstants.LAYER_MASK_GROUND); // Everything but ground
+                boxCollider.excludeLayers = ~LayerMask.GetMask(PlateauSandboxTrafficManagerConstants.LAYER_MASK_GROUND, "Vehicle");
                 boxCollider.material = physicMaterial;
+                boxCollider.isTrigger = false; // 物理衝突を有効
             }
             lastPosition = rigidbody.position;
         }
@@ -363,6 +368,51 @@ namespace AWSIM
             // Return to default value.
             Gizmos.color = cacheColor;
             Gizmos.matrix = cacheMatrix;
+        }
+
+        /// <summary>
+        /// 車両同士の衝突検出
+        /// </summary>
+        private void OnCollisionEnter(Collision collision)
+        {
+            // 他の車両との衝突をチェック
+            NPCVehicle otherVehicle = collision.gameObject.GetComponent<NPCVehicle>();
+            if (otherVehicle != null)
+            {
+                // 衝突時の処理
+                HandleVehicleCollision(otherVehicle, collision);
+            }
+        }
+
+        /// <summary>
+        /// 車両衝突時の処理
+        /// </summary>
+        private void HandleVehicleCollision(NPCVehicle otherVehicle, Collision collision)
+        {
+            // 衝突した車両を削除対象にマーク（速度に関係なく）
+            MarkForDeletion();
+            otherVehicle.MarkForDeletion();
+        }
+
+        /// <summary>
+        /// 車両を削除対象としてマーク
+        /// </summary>
+        private void MarkForDeletion()
+        {
+            // TrafficManagerを通してNPCVehicleSimulatorにアクセス
+            var trafficManager = FindObjectOfType<AWSIM.TrafficSimulation.TrafficManager>();
+            if (trafficManager?.npcVehicleSimulator != null)
+            {
+                var state = trafficManager.npcVehicleSimulator.VehicleStates.FirstOrDefault(s => s.Vehicle == this);
+                if (state != null)
+                {
+                    state.ShouldDespawn = true;
+                }
+            }
+            else
+            {
+                Debug.LogError("TrafficManager or NPCVehicleSimulator not found");
+            }
         }
     }
 }

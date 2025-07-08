@@ -191,9 +191,10 @@ namespace AWSIM.TrafficSimulation
                     : Waypoints[waypointOffset + waypointIndex - 1];
 
                 // Reduce the detection range so that large sized vehicles can pass each other.
-                var boxCastExtents = States[stateIndex].Extents * 0.5f;
+                var boxCastExtents = States[stateIndex].Extents * 1.2f;
                 boxCastExtents.y *= 1;
-                boxCastExtents.z = 0.1f;
+                // 車間距離を詰めるため、最小値を小さく設定
+                boxCastExtents.z = Mathf.Max(States[stateIndex].Extents.z * 1.5f, 2.0f);
 
                 var endPoint = Waypoints[waypointOffset + waypointIndex];
 
@@ -301,7 +302,7 @@ namespace AWSIM.TrafficSimulation
 
             public static float differenceOrientationDegreesImplyingPerpendicularRoad = 35f;
             
-            public static float minimumDistanceBetweenNPCs = 70f;
+            public static float minimumDistanceBetweenNPCs = 30f;
 
             // In
             //public Transform EGOTransform;
@@ -965,7 +966,7 @@ namespace AWSIM.TrafficSimulation
         /// Calculation cost is proportional to this value.
         /// This value should be less than or equal to <see cref="MaxWaypointCount"/>.
         /// </summary>
-        private const int MaxBoxcastCount = 5;
+        private const int MaxBoxcastCount = 10;
         //private const int MaxBoxcastCount = 10;
 
         private readonly LayerMask vehicleLayerMask;

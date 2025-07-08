@@ -37,8 +37,8 @@ namespace AWSIM.TrafficSimulation
             => new NPCVehicleConfig
             {
                 Acceleration = 3f,
-                Deceleration = 2f,
-                SuddenDeceleration = 4f,
+                Deceleration = 2.5f,     // 緩やかな減速で滑らかな動き
+                SuddenDeceleration = 5f, // 中程度の急減速
                 AbsoluteDeceleration = 20f
             };
     }

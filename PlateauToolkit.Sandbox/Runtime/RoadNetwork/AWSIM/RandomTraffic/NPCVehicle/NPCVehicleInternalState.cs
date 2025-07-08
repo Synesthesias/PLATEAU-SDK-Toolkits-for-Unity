@@ -94,7 +94,8 @@ namespace AWSIM.TrafficSimulation
             {
                 return PlateauSandboxTrafficManagerConstants.MAX_IDLE_TIME
                     + PlateauSandboxTrafficManagerConstants.TRAFFIC_LIGHT_GREEN_INTERVAL_SECONDS
-                    + PlateauSandboxTrafficManagerConstants.TRAFFIC_LIGHT_RED_INTERVAL_SECONDS;
+                    + PlateauSandboxTrafficManagerConstants.TRAFFIC_LIGHT_RED_INTERVAL_SECONDS
+                    + 30; // 30秒は信号待ちの時間を考慮
             }
             return PlateauSandboxTrafficManagerConstants.MAX_IDLE_TIME;
         }

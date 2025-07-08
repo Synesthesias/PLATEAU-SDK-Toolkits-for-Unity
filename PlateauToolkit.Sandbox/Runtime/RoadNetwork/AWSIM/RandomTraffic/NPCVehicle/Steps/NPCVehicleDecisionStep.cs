@@ -15,8 +15,8 @@ namespace AWSIM.TrafficSimulation
 
         // MinFrontVehicleDistance is added to the threshold for the distance at which an obstacle is considered dangerous.
         // The vehicle is controlled to stop at this distance away from the obstacle(e.g. another vehicle in front of the vehicle).
-        private const float MinFrontVehicleDistance = 4f;
-        private const float MinStopDistance = 1.5f;
+        private const float MinFrontVehicleDistance = 1.5f;
+        private const float MinStopDistance = 0.5f;
 
         public NPCVehicleDecisionStep(NPCVehicleConfig config)
         {
@@ -60,10 +60,12 @@ namespace AWSIM.TrafficSimulation
                 return;
             }
 
-            var absoluteStopDistance = CalculateStoppableDistance(state.Speed, config.AbsoluteDeceleration) + MinStopDistance;
-            var suddenStopDistance = CalculateStoppableDistance(state.Speed, config.SuddenDeceleration) + 2 * MinStopDistance;
-            var stopDistance = CalculateStoppableDistance(state.Speed, config.Deceleration) + 3 * MinStopDistance;
-            var slowDownDistance = stopDistance + 4 * MinStopDistance;
+            // 車間距離を詰めるため、速度係数を小さく調整
+            var speedFactor = Mathf.Clamp(state.Speed / 25f, 0.2f, 0.8f); // 25m/s基準で0.2～0.8倍に縮小
+            var absoluteStopDistance = CalculateStoppableDistance(state.Speed, config.AbsoluteDeceleration) + MinStopDistance * 0.5f;
+            var suddenStopDistance = CalculateStoppableDistance(state.Speed, config.SuddenDeceleration) + MinStopDistance * 0.8f;
+            var stopDistance = CalculateStoppableDistance(state.Speed, config.Deceleration) + MinStopDistance * 1.2f;
+            var slowDownDistance = stopDistance + MinStopDistance * 1.5f;
 
             var distanceToStopPointByFrontVehicle = onlyGreaterThan(state.DistanceToFrontVehicle - MinFrontVehicleDistance, -MinFrontVehicleDistance);
             var distanceToStopPointByTrafficLight = CalculateTrafficLightDistance(state, suddenStopDistance);

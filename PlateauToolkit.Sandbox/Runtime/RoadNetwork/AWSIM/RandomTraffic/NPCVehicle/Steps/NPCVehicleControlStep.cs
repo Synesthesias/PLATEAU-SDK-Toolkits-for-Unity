@@ -53,8 +53,9 @@ namespace AWSIM.TrafficSimulation
                     break;
                 case NPCVehicleSpeedMode.ABSOLUTE_STOP:
                     targetSpeed = 0f;
-                    acceleration = config.AbsoluteDeceleration;
-                    break;
+                    // 緊急停止：即座に速度を0にする
+                    state.Speed = 0f;
+                    return;
                 case NPCVehicleSpeedMode.STOP:
                     targetSpeed = 0f;
                     acceleration = config.Deceleration;

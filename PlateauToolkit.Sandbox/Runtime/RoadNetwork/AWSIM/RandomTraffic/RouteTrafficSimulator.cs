@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
@@ -15,6 +16,9 @@ namespace AWSIM.TrafficSimulation
 
         [Tooltip("Route to follow. The first element also acts as a spawn lane.")]
         public TrafficLane[] route;
+
+        [Tooltip("Lanes that vehicles can spawn from. If null, uses the entire route for spawning.")]
+        public TrafficLane[] spawnableLanes;
 
         [Tooltip("Describes the lifetime of a traffic simulator instance by specifying how many vehicles this traffic simulator will spawn. Setting it makes the spawner live longer or shorter, while it can also be set to infinity if needed (endless lifetime).")]
         public int maximumSpawns;
@@ -36,6 +40,7 @@ namespace AWSIM.TrafficSimulation
         public bool enabled = true;
 
         private TrafficLane[] route;
+        private TrafficLane[] spawnableLanes;
         private int maximumSpawns = 0;
         private float spawnIntervalTime = 0f;
         private float lastSpawnTime = 0f;
@@ -71,13 +76,16 @@ namespace AWSIM.TrafficSimulation
             TrafficLane[] npcRoute,
             NPCVehicleSimulator vehicleSimulator,
             int maxSpawns = 0,
-            float spawnInterval = 0f)
+            float spawnInterval = 0f,
+            TrafficLane[] spawnableLanes = null)
         {
             route = npcRoute;
+            this.spawnableLanes = spawnableLanes;
             maximumSpawns = maxSpawns;
             spawnIntervalTime = spawnInterval;
             npcVehicleSimulator = vehicleSimulator;
-            TrafficLane[] spawnableLane = npcRoute;
+            // spawnableLanesがnullの場合はroute全体を使用（後方互換性）
+            TrafficLane[] spawnableLane = spawnableLanes ?? npcRoute;
             npcVehicleSpawner = new NPCVehicleSpawner(parent, npcPrefabs, spawnableLane);
         }
 
@@ -118,7 +126,20 @@ namespace AWSIM.TrafficSimulation
             }
 
             var vehicle = npcVehicleSpawner.Spawn(prefab, SpawnIdGenerator.Generate(), spawnPoint);
-            npcVehicleSimulator.Register(vehicle, route.ToList<TrafficLane>(), spawnPoint.WaypointIndex);
+            // spawnableLanesが設定されている場合は、スポーン車線のみをルートとして設定
+            // （その車線終了後は自動的にNextLanesからランダム選択される）
+            List<TrafficLane> vehicleRoute;
+            if (spawnableLanes != null)
+            {
+                // スポーンした車線のみをルートとして設定
+                vehicleRoute = new List<TrafficLane> { spawnPoint.Lane };
+            }
+            else
+            {
+                // 従来通りrouteを使用
+                vehicleRoute = route.ToList<TrafficLane>();
+            }
+            npcVehicleSimulator.Register(vehicle, vehicleRoute, spawnPoint.WaypointIndex);
             nextPrefabToSpawn = null;
             lastSpawnTime = Time.time;
 
