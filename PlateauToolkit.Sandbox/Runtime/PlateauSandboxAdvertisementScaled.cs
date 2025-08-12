@@ -1,9 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PlateauToolkit.Sandbox.Runtime
 {
     public class PlateauSandboxAdvertisementScaled : PlateauSandboxPlaceableHandler
     {
+        // 対象の広告物オブジェクトはbillboard部とpole部それぞれスケール1倍で1mとする
+
         [SerializeField]
         private GameObject billboardRoot;
 
@@ -30,7 +32,8 @@ namespace PlateauToolkit.Sandbox.Runtime
                 poleRoot.transform.localScale = new Vector3(poleRoot.transform.localScale.x, value, poleRoot.transform.localScale.z);
 
                 // 高さの値に応じてbillboardRootのy座標を変更する
-                billboardRoot.transform.localPosition = new Vector3(billboardRoot.transform.localPosition.x, poleRoot.transform.localScale.y, billboardRoot.transform.localPosition.z);
+                float y = poleRoot.transform.localPosition.y + poleRoot.transform.localScale.y;
+                billboardRoot.transform.localPosition = new Vector3(billboardRoot.transform.localPosition.x, y, billboardRoot.transform.localPosition.z);
             }
         }
 
