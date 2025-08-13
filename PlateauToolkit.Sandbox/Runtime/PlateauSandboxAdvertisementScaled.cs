@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PlateauToolkit.Sandbox.Runtime
 {
@@ -14,6 +15,7 @@ namespace PlateauToolkit.Sandbox.Runtime
 
         private Vector3 billboardDefaultPosition;
         private Vector3 poleDefaultPosition;
+
 
         public Vector3 BillboardSize
         {
@@ -35,6 +37,22 @@ namespace PlateauToolkit.Sandbox.Runtime
                 float y = poleRoot.transform.localPosition.y + poleRoot.transform.localScale.y;
                 billboardRoot.transform.localPosition = new Vector3(billboardRoot.transform.localPosition.x, y, billboardRoot.transform.localPosition.z);
             }
+        }
+
+        public bool TransformChanged
+        {
+            get
+            {
+                bool isChanged = poleRoot.transform.hasChanged == true || billboardRoot.transform.hasChanged == true;
+                return isChanged;
+            }
+            //set;
+        }
+
+        public void ResetTransformChangedStatus()
+        {
+            poleRoot.transform.hasChanged = false;
+            billboardRoot.transform.hasChanged = false;
         }
 
         private void Awake()
