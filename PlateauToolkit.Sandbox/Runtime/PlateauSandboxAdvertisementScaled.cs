@@ -16,26 +16,38 @@ namespace PlateauToolkit.Sandbox.Runtime
         private Vector3 billboardDefaultPosition;
         private Vector3 poleDefaultPosition;
 
-
+        /// <summary>
+        /// ワールド空間でのサイズ
+        /// </summary>
         public Vector3 BillboardSize
         {
-            get => billboardRoot.transform.localScale;
+            get
+            {
+                return Vector3.Scale(transform.localScale, billboardRoot.transform.localScale);
+            }
             set
             {
-                billboardRoot.transform.localScale = value;
+                Vector3 v =  new Vector3(value.x / transform.lossyScale.x, value.y / transform.lossyScale.y, value.z / transform.lossyScale.z);
+                billboardRoot.transform.localScale = v;
             }
         }
 
+        /// <summary>
+        /// ワールド空間でのサイズ
+        /// </summary>
         public float PoleHeight
         {
-            get => poleRoot.transform.localScale.y;
+            get
+            {
+                return poleRoot.transform.lossyScale.y;
+            }
             set
             {
-                poleRoot.transform.localScale = new Vector3(poleRoot.transform.localScale.x, value, poleRoot.transform.localScale.z);
+                float y = value / transform.parent.lossyScale.y;
+                poleRoot.transform.localScale = new Vector3(poleRoot.transform.localScale.x, y, poleRoot.transform.localScale.z);
 
                 // 高さの値に応じてbillboardRootのy座標を変更する
-                float y = poleRoot.transform.localPosition.y + poleRoot.transform.localScale.y;
-                billboardRoot.transform.localPosition = new Vector3(billboardRoot.transform.localPosition.x, y, billboardRoot.transform.localPosition.z);
+                billboardRoot.transform.position = new Vector3(billboardRoot.transform.position.x, poleRoot.transform.position.y + value, billboardRoot.transform.position.z);
             }
         }
 
@@ -60,5 +72,6 @@ namespace PlateauToolkit.Sandbox.Runtime
             billboardDefaultPosition = billboardRoot.transform.position;
             poleDefaultPosition = poleRoot.transform.position;
         }
+
     }
 }
