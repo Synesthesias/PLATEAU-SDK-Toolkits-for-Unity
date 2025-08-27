@@ -13,8 +13,8 @@ namespace PlateauToolkit.Sandbox.Runtime
         [SerializeField]
         private GameObject poleRoot;
 
-        private Vector3 billboardDefaultPosition;
-        private Vector3 poleDefaultPosition;
+        //private Vector3 billboardDefaultPosition;
+        //private Vector3 poleDefaultPosition;
 
         /// <summary>
         /// ワールド空間でのサイズ
@@ -47,7 +47,7 @@ namespace PlateauToolkit.Sandbox.Runtime
                 poleRoot.transform.localScale = new Vector3(poleRoot.transform.localScale.x, y, poleRoot.transform.localScale.z);
 
                 // 高さの値に応じてbillboardRootのy座標を変更する
-                billboardRoot.transform.position = new Vector3(billboardRoot.transform.position.x, poleRoot.transform.position.y + value, billboardRoot.transform.position.z);
+                billboardRoot.transform.localPosition = new Vector3(billboardRoot.transform.localPosition.x, poleRoot.transform.localPosition.y + y, billboardRoot.transform.localPosition.z);
             }
         }
 
@@ -69,8 +69,8 @@ namespace PlateauToolkit.Sandbox.Runtime
 
         private void Awake()
         {
-            billboardDefaultPosition = billboardRoot.transform.position;
-            poleDefaultPosition = poleRoot.transform.position;
+            //billboardDefaultPosition = billboardRoot.transform.position;
+            //poleDefaultPosition = poleRoot.transform.position;
         }
 
     }
