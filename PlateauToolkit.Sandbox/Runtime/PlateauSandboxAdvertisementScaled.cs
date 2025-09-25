@@ -27,7 +27,7 @@ namespace PlateauToolkit.Sandbox.Runtime
             }
             set
             {
-                Vector3 v =  new Vector3(value.x / transform.lossyScale.x, value.y / transform.lossyScale.y, value.z / transform.lossyScale.z);
+                Vector3 v = new Vector3(value.x / transform.lossyScale.x, value.y / transform.lossyScale.y, value.z / transform.lossyScale.z);
                 billboardRoot.transform.localScale = v;
             }
         }
@@ -43,7 +43,7 @@ namespace PlateauToolkit.Sandbox.Runtime
             }
             set
             {
-                float y = value / transform.parent.lossyScale.y;
+                float y = value / transform.lossyScale.y;
                 poleRoot.transform.localScale = new Vector3(poleRoot.transform.localScale.x, y, poleRoot.transform.localScale.z);
 
                 // 高さの値に応じてbillboardRootのy座標を変更する
