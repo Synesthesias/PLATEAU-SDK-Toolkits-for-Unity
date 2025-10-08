@@ -66,11 +66,13 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
         private SerializedProperty m_ComplexBuildingVertexColorMaterialPalette;
         private SerializedProperty m_ComplexBuildingMaterialPalette;
 
+        private SerializedProperty m_IsSizePanelVisible;
+
         private GUIStyle m_SaveMeshBtnTextColorStyle;
 
         private void OnEnable()
         {
-            m_Generator = (Runtime.PlateauSandboxBuilding) target;
+            m_Generator = (Runtime.PlateauSandboxBuilding)target;
             m_UndoObjectWithShaderParam = new List<Object>();
 
             var lsLodObject = m_Generator.gameObject.GetComponentsInChildrenWithoutSelf<Transform>().ToList();
@@ -128,6 +130,8 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
             m_ComplexBuildingVertexColorMaterialPalette = serializedObject.FindProperty("complexBuildingVertexColorMaterialPalette");
             m_ComplexBuildingMaterialPalette = serializedObject.FindProperty("complexBuildingMaterialPalette");
 
+            m_IsSizePanelVisible = serializedObject.FindProperty("isSizePanelVisible");
+
             m_SaveMeshBtnTextColorStyle = null;
 
             Undo.undoRedoPerformed += OnUndo;
@@ -150,7 +154,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
             }
 
             // Supported LOD: LOD0
-            foreach (int lodNum in new List<int> {0})
+            foreach (int lodNum in new List<int> { 0 })
             {
                 if (m_Generator != null)
                 {
@@ -307,7 +311,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
                             {
                                 {"textureOffsetX", new Tuple<string, float, float>("横のオフセット値", -1f, 1f)},
                                 {"textureOffsetY", new Tuple<string, float, float>("縦のオフセット値", -1f, 1f)},
-                            }, isUpdateShaderParams:true))
+                            }, isUpdateShaderParams: true))
                         {
                             SerializedProperty roofSideFrontSerializedProperty = m_HotelMaterialPalette.FindPropertyRelative("roofSideFront");
                             if (roofSideFrontSerializedProperty != null)
@@ -349,7 +353,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
                                 {
                                     {"textureOffsetX", new Tuple<string, float, float>("横のオフセット値", -1f, 1f)},
                                     {"textureOffsetY", new Tuple<string, float, float>("縦のオフセット値", -1f, 1f)}
-                                }, isUpdateShaderParams:true))
+                                }, isUpdateShaderParams: true))
                             {
                                 SerializedProperty roofSideFrontSerializedProperty = m_ComplexBuildingMaterialPalette.FindPropertyRelative("hotelRoofSideFront");
                                 if (roofSideFrontSerializedProperty != null)
@@ -432,7 +436,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
                 EditorUtility.SetDirty(m_Generator);
 
                 // Supported LOD: LOD0
-                foreach (int lodNum in new List<int> {0})
+                foreach (int lodNum in new List<int> { 0 })
                 {
                     m_Generator.GenerateMesh(lodNum, m_Generator.buildingWidth, m_Generator.buildingDepth);
                 }
@@ -491,6 +495,21 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
             if (changedValue)
             {
                 EditorUtility.SetDirty(m_Generator);
+            }
+
+            EditorGUILayout.Space(5);
+            GuiUtility.Separator(m_SeparatorColor);
+            EditorGUILayout.Space(5);
+
+            EditorGUI.BeginChangeCheck();
+            bool newShowSizePanel = EditorGUILayout.ToggleLeft(
+                new GUIContent("サイズ変更パネル表示", "サイズ調整用 UI の表示/非表示"),
+                m_IsSizePanelVisible.boolValue);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                m_IsSizePanelVisible.boolValue = newShowSizePanel;
+                serializedObject.ApplyModifiedProperties();
             }
         }
 
@@ -673,7 +692,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
                         changedComplexHotelBuildingParam = DrawDynamicPropertyOnly(m_ComplexHotelParams, new Dictionary<string, Tuple<string, float, float>>
                         {
                             {"roofThickness", new Tuple<string, float, float>("屋根の厚さ", 0f, 5f)}
-                        }, hideParam:higherFloorBuildingTypeProperty.enumValueIndex != (int)ComplexBuildingConfig.ComplexBuildingType.k_Hotel);
+                        }, hideParam: higherFloorBuildingTypeProperty.enumValueIndex != (int)ComplexBuildingConfig.ComplexBuildingType.k_Hotel);
                     }
 
                     return changedComplexBuildingParam || changedComplexSkyscraperCondominiumBuildingParam || changedComplexOfficeBuildingParam || changedComplexHotelBuildingParam || changedComplexHotelShaderBuildingParam;

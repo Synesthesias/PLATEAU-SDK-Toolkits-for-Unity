@@ -82,6 +82,8 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Runtime
         public RoofPlanner roofPlanner;
         public RoofConstructor roofConstructor;
 
+        public bool isSizePanelVisible = false;
+
         public string GetBuildingName()
         {
             return buildingType switch
