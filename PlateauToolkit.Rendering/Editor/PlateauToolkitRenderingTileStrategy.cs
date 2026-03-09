@@ -1,4 +1,4 @@
-﻿using PLATEAU.CityInfo;
+using PLATEAU.CityInfo;
 using PLATEAU.DynamicTile;
 using PLATEAU.Editor.DynamicTile;
 using PLATEAU.Editor.Window.Common.Tile;
@@ -415,18 +415,33 @@ namespace PlateauToolkit.Rendering.Editor
         }
 
         /// <summary>
-        /// 子要素の PLATEAUCityObjectGroup をすべて取得する
+        /// タイル直下のLOD配下にある、建物単位のPLATEAUCityObjectGroupのみ取得します。
         /// </summary>
         /// <param name="tileTransform"></param>
         /// <returns></returns>
         List<GameObject> GetChildGameObjects(Transform tileTransform)
         {
             var selectedGameObjects = new List<GameObject>();
-            PLATEAUCityObjectGroup[] children = tileTransform.GetComponentsInChildren<PLATEAUCityObjectGroup>();
-            foreach (PLATEAUCityObjectGroup child in children)
+
+            foreach (Transform lodTransform in tileTransform)
             {
-                selectedGameObjects.Add(child.gameObject);
+                if (!lodTransform.name.StartsWith("LOD"))
+                {
+                    continue;
+                }
+
+                foreach (Transform cityObjectTransform in lodTransform)
+                {
+                    var cityObjectGroup = cityObjectTransform.GetComponent<PLATEAUCityObjectGroup>();
+                    if (cityObjectGroup == null)
+                    {
+                        continue;
+                    }
+
+                    selectedGameObjects.Add(cityObjectTransform.gameObject);
+                }
             }
+
             return selectedGameObjects;
         }
 
