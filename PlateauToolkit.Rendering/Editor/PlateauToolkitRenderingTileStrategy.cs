@@ -1,4 +1,4 @@
-﻿using PLATEAU.CityInfo;
+using PLATEAU.CityInfo;
 using PLATEAU.DynamicTile;
 using PLATEAU.Editor.DynamicTile;
 using PLATEAU.Editor.Window.Common.Tile;
@@ -210,7 +210,7 @@ namespace PlateauToolkit.Rendering.Editor
             {
 
 #if PLATEAU_SDK_222
-
+                /*
                 IEnumerable<Transform> convertibleTiles = tileTransforms.Where(t => Enumerable.Range(0, t.childCount)
                   .Select(i => t.GetChild(i).name).All(n => n.StartsWith("LOD"))); // タイル直下の子が全てLODであるタイルのみ抽出 (改造構造が変わっていると変換できない）
                 if (convertibleTiles.Any())
@@ -221,6 +221,32 @@ namespace PlateauToolkit.Rendering.Editor
                             new GranularityConvertOption(ConvertGranularity.PerPrimaryFeatureObject, 1), new UniqueParentTransformList(convertibleTiles), true));
                     tileTransforms = GetEditableTransforms(selectedItems, param.EditingTile); // 変換後の Tile を再取得
                 }
+                */
+
+                // もともと主要地物単位のタイルに対して変換を行うと、
+                // 地物名が細粒度側へ変わってしまうケースがあるため、
+                // ここでは対象タイルを複製して差し替え、複製側を編集対象として再取得します。
+                var originalTileTransforms = tileTransforms.ToList();
+                var copiedTiles = new List<(GameObject CopyObj, string OriginalName)>();
+                foreach (var tileTransform in originalTileTransforms)
+                {
+                    var copyObj = UnityEngine.Object.Instantiate(tileTransform.gameObject, tileTransform.parent);
+                    copyObj.name = $"{tileTransform.name}__AutoTextureCopy";
+                    copyObj.transform.SetSiblingIndex(tileTransform.GetSiblingIndex() + 1);
+                    copiedTiles.Add((copyObj, tileTransform.name));
+                }
+
+                foreach (var tileTransform in originalTileTransforms)
+                {
+                    UnityEngine.Object.DestroyImmediate(tileTransform.gameObject);
+                }
+
+                foreach (var copiedTile in copiedTiles)
+                {
+                    copiedTile.CopyObj.name = copiedTile.OriginalName;
+                }
+
+                tileTransforms = GetEditableTransforms(selectedItems, param.EditingTile);
 #endif
                 foreach (Transform transform in tileTransforms)
                 {
