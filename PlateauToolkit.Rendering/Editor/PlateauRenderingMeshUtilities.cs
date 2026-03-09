@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PLATEAU.CityInfo;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,27 +9,6 @@ namespace PlateauToolkit.Rendering.Editor
 {
     static class PlateauRenderingMeshUtilities
     {
-        /// <summary>
-        /// 自動テクスチャ生成でメッシュを置き換える際、元オブジェクトの属性情報も引き継ぎます。
-        /// </summary>
-        static void CopyCityObjectGroupIfExists(GameObject source, GameObject destination)
-        {
-            var sourceCityObjectGroup = source.GetComponent<PLATEAUCityObjectGroup>();
-            if (sourceCityObjectGroup == null)
-            {
-                return;
-            }
-
-            var destinationCityObjectGroup = destination.GetComponent<PLATEAUCityObjectGroup>();
-            if (destinationCityObjectGroup == null)
-            {
-                destinationCityObjectGroup = destination.AddComponent<PLATEAUCityObjectGroup>();
-            }
-
-            destinationCityObjectGroup.CopyFrom(sourceCityObjectGroup);
-            EditorUtility.SetDirty(destinationCityObjectGroup);
-        }
-
         // Create a new instance of a mesh
         public static Mesh CreateMeshInstance(Mesh inputMesh, bool recalculateNormals)
         {
@@ -1656,7 +1634,6 @@ namespace PlateauToolkit.Rendering.Editor
                 // Add a mesh filter and mesh renderer to the new game object
                 newGameObject.AddComponent<MeshFilter>().sharedMesh = newMeshes[i];
                 newGameObject.AddComponent<MeshRenderer>().sharedMaterial = meshRenderer.sharedMaterial;
-                CopyCityObjectGroupIfExists(parentGameObject, newGameObject);
 
                 // Make the new game object a child of the parent game object
                 newGameObject.transform.parent = parentGameObject.transform.parent;
@@ -1775,7 +1752,6 @@ namespace PlateauToolkit.Rendering.Editor
                         MeshRenderer newMeshRenderer = newGameObject.AddComponent<MeshRenderer>();
                         newMeshRenderer.sharedMaterial = material;
                         Undo.RegisterCreatedObjectUndo(newMeshRenderer, "Create Mesh Renderer");
-                        CopyCityObjectGroupIfExists(parentGameObject, newGameObject);
 
                         newGameObject.transform.SetParent(parentGameObject.transform.parent, false);
                         Undo.RegisterCreatedObjectUndo(newGameObject, "Create GameObject");
