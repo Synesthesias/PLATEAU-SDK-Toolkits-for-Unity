@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -263,6 +263,11 @@ namespace PlateauToolkit.Rendering.Editor
 
         public static void PlaceObstacleLightsOnBuildingCorners(GameObject go)
         {
+            if (!PlateauRenderingConstants.k_EnableObstacleLightsGeneration)
+            {
+                return;
+            }
+
             // Define the light prefab path based on the current render pipeline
             string lightPrefabPath = PlateauToolkitRenderingPaths.k_ObstacleLightPrefabPathUrp;
 #if UNITY_HDRP
@@ -720,6 +725,11 @@ namespace PlateauToolkit.Rendering.Editor
 
         public static void CreatePlaneUnderBuilding(GameObject building)
         {
+            if (!PlateauRenderingConstants.k_EnableFloorEmissionGeneration)
+            {
+                return;
+            }
+
             // Ensure the selectedBuilding and materialPath is valid
             if (building == null)
             {
