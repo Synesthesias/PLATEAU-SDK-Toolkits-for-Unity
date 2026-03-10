@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -263,11 +263,6 @@ namespace PlateauToolkit.Rendering.Editor
 
         public static void PlaceObstacleLightsOnBuildingCorners(GameObject go)
         {
-            if (!PlateauRenderingConstants.k_EnableObstacleLightsGeneration)
-            {
-                return;
-            }
-
             // Define the light prefab path based on the current render pipeline
             string lightPrefabPath = PlateauToolkitRenderingPaths.k_ObstacleLightPrefabPathUrp;
 #if UNITY_HDRP
@@ -553,8 +548,7 @@ namespace PlateauToolkit.Rendering.Editor
 
         /// <summary>
         /// Tile ZoomLevel 9 Lod1 Materialの差替え
-        /// Sampleでのみ利用
-        /// HDRP非対応
+        /// PLATEAULod1TriplanarShader => Building_Lod1Triplanar_URP or Building_Lod1Triplanar_HDRP
         /// </summary>
         /// <param name="obj"></param>
         public static void ChangeTileZL9LOD1BuildingShader(GameObject obj)
@@ -637,15 +631,6 @@ namespace PlateauToolkit.Rendering.Editor
                         {
                             material.SetFloat("_BaseMapOpacity", 0.95f);
                         }
-
-                        if (material.HasProperty("_BaseMap"))
-                        {
-                            if (material.HasProperty("_RightTexture"))
-                            {
-                                material.SetTexture("_BaseMap", material.GetTexture("_RightTexture"));
-                            }
-                        }
-
 #if UNITY_URP
                         BaseShaderGUI.SetMaterialKeywords(material);
 #endif
@@ -725,11 +710,6 @@ namespace PlateauToolkit.Rendering.Editor
 
         public static void CreatePlaneUnderBuilding(GameObject building)
         {
-            if (!PlateauRenderingConstants.k_EnableFloorEmissionGeneration)
-            {
-                return;
-            }
-
             // Ensure the selectedBuilding and materialPath is valid
             if (building == null)
             {
