@@ -1,4 +1,4 @@
-using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Common;
+﻿using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Common;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Configs;
@@ -96,6 +96,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Runtime
                 BuildingType.k_Hotel => "Hotel",
                 BuildingType.k_Factory => "Factory",
                 BuildingType.k_ComplexBuilding => "ComplexBuilding",
+                BuildingType.k_Unknown => "Unknown",
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

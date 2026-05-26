@@ -1,4 +1,4 @@
-using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Configs;
+﻿using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Configs;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -171,6 +171,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings
         k_CommercialBuilding,
         k_Hotel,
         k_Factory,
-        k_ComplexBuilding
+        k_ComplexBuilding,
+        k_Unknown   // 未定義
     }
 }
