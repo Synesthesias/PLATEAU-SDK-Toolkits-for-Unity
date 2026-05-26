@@ -180,6 +180,29 @@ namespace PlateauToolkit.Rendering
             Shader.SetGlobalColor("_BuildingColor", m_BuildingColor);
         }
 #if UNITY_HDRP
+        /// <summary>
+        /// 晴天を基準に、雲量・降雨・降雪から直射日光の目標照度（lux）を求める。
+        /// HDRP のディレクショナルライトの Intensity 単位と一致させる。
+        /// </summary>
+#if UNITY_HDRP
+        static float ComputeSunLuxForWeather(float cloud01, float rain01, float snow01)
+        {
+            const float kClearSunLux = 80000f;
+            const float kOvercastLux = 9000f;
+            const float kRainLuxFactor = 0.28f;
+            const float kSnowLuxFactor = 0.35f;
+
+            float c = Mathf.Clamp01(Mathf.Abs(cloud01));
+            float r = Mathf.Clamp01(rain01);
+            float s = Mathf.Clamp01(snow01);
+
+            float lux = Mathf.Lerp(kClearSunLux, kOvercastLux, c);
+            lux *= Mathf.Lerp(1f, kRainLuxFactor, r);
+            lux *= Mathf.Lerp(1f, kSnowLuxFactor, s);
+            return Mathf.Max(0f, lux);
+        }
+#endif
+
         void UpdateCloudLayerVolume()
         {
             // Make sure the environmentVolumeGameObject is set
@@ -222,6 +245,9 @@ namespace PlateauToolkit.Rendering
 #endif
         void UpdateLights()
         {
+#if UNITY_HDRP
+            m_SunIntensity = ComputeSunLuxForWeather(m_Cloud, m_Rain, m_Snow);
+#endif
             m_Time = CombineDateAndTime();
             m_Time = m_Time.ToUniversalTime();
 
