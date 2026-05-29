@@ -103,6 +103,14 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Runtime
 
         public void GenerateMesh(int inLodNum, float inBuildingWidth, float inBuildingDepth)
         {
+            if (!buildingType.SupportsProceduralGeneration())
+            {
+                Debug.LogWarning(
+                    $"[{name}] buildingType={buildingType} のためプロシージャルメッシュ生成をスキップします。",
+                    this);
+                return;
+            }
+
             m_Config.buildingType = buildingType;
             m_Config.buildingHeight = buildingHeight;
             m_Config.useTexture = useTexture;

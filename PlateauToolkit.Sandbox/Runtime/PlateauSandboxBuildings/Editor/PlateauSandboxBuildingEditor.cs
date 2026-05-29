@@ -153,6 +153,11 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
                 return;
             }
 
+            if (!SupportsProceduralGeneration())
+            {
+                return;
+            }
+
             // Supported LOD: LOD0
             foreach (int lodNum in new List<int> { 0 })
             {
@@ -161,6 +166,11 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
                     m_Generator.GenerateMesh(lodNum, m_Generator.buildingWidth, m_Generator.buildingDepth);
                 }
             }
+        }
+
+        private bool SupportsProceduralGeneration()
+        {
+            return ((BuildingType)m_BuildingType.enumValueIndex).SupportsProceduralGeneration();
         }
 
         private bool DrawDynamicPropertyOnly(SerializedProperty inProperty)
@@ -249,6 +259,12 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
             m_UndoObjectWithShaderParam.Clear();
             bool changedValue = false;
             serializedObject.Update();
+
+            if (!SupportsProceduralGeneration())
+            {
+                DrawUnknownBuildingInspector();
+                return;
+            }
 
             EditorGUILayout.LabelField("建造物設定", EditorStyles.boldLabel);
             if (BuildingDynamicGUI())
@@ -430,7 +446,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
                         break;
                 }
             }
-            if (changedValue)
+            if (changedValue && SupportsProceduralGeneration())
             {
                 m_AllowUndoCount++;
                 EditorUtility.SetDirty(m_Generator);
@@ -449,6 +465,30 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
             }
             EditorGUILayout.Space(10);
 
+            DrawPrefabSaveButton();
+            DrawPlacementAndSizePanelFooter(ref changedValue);
+        }
+
+        private void DrawUnknownBuildingInspector()
+        {
+            EditorGUILayout.LabelField("建造物設定", EditorStyles.boldLabel);
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.PropertyField(m_BuildingType);
+            EditorGUI.EndDisabledGroup();
+            EditorGUILayout.HelpBox(
+                "この建物タイプはプロシージャル生成に非対応です。既存メッシュが保持されます。",
+                MessageType.Info);
+
+            EditorGUILayout.Space(10);
+            DrawPrefabSaveButton();
+
+            bool changedValue = false;
+            DrawPlacementAndSizePanelFooter(ref changedValue);
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawPrefabSaveButton()
+        {
             using (new ColorScope(KColorScope.Background, m_GeneratorBtnColor))
             {
                 if (m_SaveMeshBtnTextColorStyle == null)
@@ -466,19 +506,25 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
                     SavePrefab();
                 }
             }
+        }
 
+        private void DrawPlacementAndSizePanelFooter(ref bool changedValue)
+        {
             EditorGUILayout.Space(5);
             GuiUtility.Separator(m_SeparatorColor);
             EditorGUILayout.Space(5);
 
-            m_Generator.facadePlanner = (FacadePlanner)EditorGUILayout.ObjectField("FacadePlanner", m_Generator.facadePlanner, typeof(ScriptableObject), allowSceneObjects: true);
-            m_Generator.facadeConstructor = (FacadeConstructor)EditorGUILayout.ObjectField("FacadeConstructor", m_Generator.facadeConstructor, typeof(ScriptableObject), allowSceneObjects: true);
-            m_Generator.roofPlanner = (RoofPlanner)EditorGUILayout.ObjectField("RoofPlanner", m_Generator.roofPlanner, typeof(ScriptableObject), allowSceneObjects: true);
-            m_Generator.roofConstructor = (RoofConstructor)EditorGUILayout.ObjectField("RoofConstructor", m_Generator.roofConstructor, typeof(ScriptableObject), allowSceneObjects: true);
+            if (SupportsProceduralGeneration())
+            {
+                m_Generator.facadePlanner = (FacadePlanner)EditorGUILayout.ObjectField("FacadePlanner", m_Generator.facadePlanner, typeof(ScriptableObject), allowSceneObjects: true);
+                m_Generator.facadeConstructor = (FacadeConstructor)EditorGUILayout.ObjectField("FacadeConstructor", m_Generator.facadeConstructor, typeof(ScriptableObject), allowSceneObjects: true);
+                m_Generator.roofPlanner = (RoofPlanner)EditorGUILayout.ObjectField("RoofPlanner", m_Generator.roofPlanner, typeof(ScriptableObject), allowSceneObjects: true);
+                m_Generator.roofConstructor = (RoofConstructor)EditorGUILayout.ObjectField("RoofConstructor", m_Generator.roofConstructor, typeof(ScriptableObject), allowSceneObjects: true);
 
-            EditorGUILayout.Space(5);
-            GuiUtility.Separator(m_SeparatorColor);
-            EditorGUILayout.Space(5);
+                EditorGUILayout.Space(5);
+                GuiUtility.Separator(m_SeparatorColor);
+                EditorGUILayout.Space(5);
+            }
 
             EditorGUI.BeginChangeCheck();
 

@@ -172,6 +172,10 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings
         k_Hotel,
         k_Factory,
         k_ComplexBuilding,
-        k_Unknown   // 未定義
+        /// <summary>
+        /// プロシージャル生成非対応。PLATEAU 由来など既存メッシュを保持する用途のみ。
+        /// BuildingGenerator および PlateauSandboxBuilding.GenerateMesh には渡さないこと。
+        /// </summary>
+        k_Unknown,
     }
 }
