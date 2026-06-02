@@ -1,4 +1,4 @@
-using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Configs;
+﻿using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Configs;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -171,6 +171,11 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings
         k_CommercialBuilding,
         k_Hotel,
         k_Factory,
-        k_ComplexBuilding
+        k_ComplexBuilding,
+        /// <summary>
+        /// プロシージャル生成非対応。PLATEAU 由来など既存メッシュを保持する用途のみ。
+        /// BuildingGenerator および PlateauSandboxBuilding.GenerateMesh には渡さないこと。
+        /// </summary>
+        k_Unknown,
     }
 }

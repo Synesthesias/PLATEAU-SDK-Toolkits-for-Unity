@@ -1,4 +1,4 @@
-using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Common;
+﻿using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Common;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Configs;
@@ -96,12 +96,21 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Runtime
                 BuildingType.k_Hotel => "Hotel",
                 BuildingType.k_Factory => "Factory",
                 BuildingType.k_ComplexBuilding => "ComplexBuilding",
+                BuildingType.k_Unknown => "Unknown",
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
 
         public void GenerateMesh(int inLodNum, float inBuildingWidth, float inBuildingDepth)
         {
+            if (!buildingType.SupportsProceduralGeneration())
+            {
+                Debug.LogWarning(
+                    $"[{name}] buildingType={buildingType} のためプロシージャルメッシュ生成をスキップします。",
+                    this);
+                return;
+            }
+
             m_Config.buildingType = buildingType;
             m_Config.buildingHeight = buildingHeight;
             m_Config.useTexture = useTexture;
