@@ -1,9 +1,9 @@
-{
+﻿{
   "name": "com.synesthesias.plateau-unity-toolkit",
   "displayName": "PLATEAU SDK-Toolkits for Unity",
   "version": "2.2.1",
   "unity": "2022.3",
-  "description": "PLATEAUの3D都市モデルを利用したUnity上でのアプリケーション開発を支援するツールキット群です。",
+  "description": "景観ツール向け拡張版。PLATEAUの3D都市モデルを利用したUnity上でのアプリケーション開発を支援するツールキット群です。",
   "author": {
     "name": "Synesthesias Inc."
   },
@@ -28,10 +28,10 @@
   ],
   "dependencies": {
     "com.synesthesias.plateau-unity-sdk": "3.0.0",
-    "com.unity.splines":"2.2.0",
-    "com.unity.inputsystem":"1.5.1",
-    "com.unity.cloud.gltfast":"5.0.4",
-    "com.unity.visualeffectgraph":"12.1.10",
+    "com.unity.splines": "2.2.0",
+    "com.unity.inputsystem": "1.5.1",
+    "com.unity.cloud.gltfast": "5.0.4",
+    "com.unity.visualeffectgraph": "12.1.10",
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   }
 }
