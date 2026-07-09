@@ -2,6 +2,7 @@ using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Common;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings;
 using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Configs;
+using PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildingsLib.Buildings.Interfaces;
 using ProceduralToolkit;
 using System;
 using System.Collections.Generic;
@@ -102,67 +103,45 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Runtime
 
         public void GenerateMesh(int inLodNum, float inBuildingWidth, float inBuildingDepth)
         {
-            m_Config.buildingType = buildingType;
-            m_Config.buildingHeight = buildingHeight;
-            m_Config.useTexture = useTexture;
+            GenerateMeshInternal(inLodNum, inBuildingWidth, inBuildingDepth, null);
+        }
 
-            m_Config.skyscraperCondominiumParams = skyscraperCondominiumParams;
-            m_Config.skyscraperCondominiumVertexColorPalette = skyscraperCondominiumVertexColorPalette;
-            m_Config.skyscraperCondominiumVertexColorMaterialPalette = skyscraperCondominiumVertexColorMaterialPalette;
-            m_Config.skyscraperCondominiumMaterialPalette = skyscraperCondominiumMaterialPalette;
+        public ResidenceFacadePlan CreateResidenceFacadePlan(float inBuildingWidth, float inBuildingDepth)
+        {
+            return CreateResidenceFacadePlanInternal(inBuildingWidth, inBuildingDepth, null);
+        }
 
-            m_Config.officeBuildingParams = officeBuildingParams;
-            m_Config.officeBuildingVertexColorPalette = officeBuildingVertexColorPalette;
-            m_Config.officeBuildingVertexColorMaterialPalette = officeBuildingVertexColorMaterialPalette;
-            m_Config.officeBuildingMaterialPalette = officeBuildingMaterialPalette;
+        public ResidenceFacadePlan CreateResidenceFacadePlan(float inBuildingWidth, float inBuildingDepth, int randomSeed)
+        {
+            return CreateResidenceFacadePlanInternal(inBuildingWidth, inBuildingDepth, randomSeed);
+        }
 
-            m_Config.residenceParams = residenceParams;
-            m_Config.residenceVertexColorPalette = residenceVertexColorPalette;
-            m_Config.residenceVertexColorMaterialPalette = residenceVertexColorMaterialPalette;
-            m_Config.residenceMaterialPalette = residenceMaterialPalette;
-
-            m_Config.conveniParams = conveniParams;
-            m_Config.conveniVertexColorPalette = conveniVertexColorPalette;
-            m_Config.conveniVertexColorMaterialPalette = conveniVertexColorMaterialPalette;
-            m_Config.conveniMaterialPalette = conveniMaterialPalette;
-
-            m_Config.commercialFacilityParams = commercialFacilityParams;
-            m_Config.commercialFacilityVertexColorPalette = commercialFacilityVertexColorPalette;
-            m_Config.commercialFacilityVertexColorMaterialPalette = commercialFacilityVertexColorMaterialPalette;
-            m_Config.commercialFacilityMaterialPalette = commercialFacilityMaterialPalette;
-
-            m_Config.hotelParams = hotelParams;
-            m_Config.hotelVertexColorPalette = hotelVertexColorPalette;
-            m_Config.hotelVertexColorMaterialPalette = hotelVertexColorMaterialPalette;
-            m_Config.hotelMaterialPalette = hotelMaterialPalette;
-
-            m_Config.factoryParams = factoryParams;
-            m_Config.factoryVertexColorPalette = factoryVertexColorPalette;
-            m_Config.factoryVertexColorMaterialPalette = factoryVertexColorMaterialPalette;
-            m_Config.factoryMaterialPalette = factoryMaterialPalette;
-
-            m_Config.m_ComplexBuildingPlannerParams = m_ComplexBuildingPlannerParams;
-            m_Config.complexBuildingParams = complexBuildingParams;
-            m_Config.complexSkyscraperCondominiumBuildingParams = complexSkyscraperCondominiumBuildingParams;
-            m_Config.complexOfficeBuildingParams = complexOfficeBuildingParams;
-            m_Config.complexHotelParams = complexHotelParams;
-            m_Config.complexHotelShaderParams = complexHotelShaderParams;
-            m_Config.complexBuildingVertexColorPalette = complexBuildingVertexColorPalette;
-            m_Config.complexBuildingVertexColorMaterialPalette = complexBuildingVertexColorMaterialPalette;
-            m_Config.complexBuildingMaterialPalette = complexBuildingMaterialPalette;
-
-            m_Config.lodNum = inLodNum;
-
-            float buildingWidthDiff = (inBuildingWidth - k_DefaultBuildingWidth) * 1f;
-            float buildingDepthDiff = (inBuildingDepth - k_DefaultBuildingDepth) * 1f;
-            const float halfBoundingBoxMultiplier = 0.5f;
-            var lsFoundationPolygonVertex = new List<Vector2>
+        private ResidenceFacadePlan CreateResidenceFacadePlanInternal(float inBuildingWidth, float inBuildingDepth, int? randomSeed)
+        {
+            CopySettingsToConfig(0);
+            List<Vector2> foundationPolygon = CreateFoundationPolygon(inBuildingWidth, inBuildingDepth);
+            if (facadePlanner is not ProceduralFacadeResidencePlanner residencePlanner)
             {
-                new((k_DefaultBuildingWidth + buildingWidthDiff) * halfBoundingBoxMultiplier, (-k_DefaultBuildingDepth - buildingDepthDiff) * halfBoundingBoxMultiplier),
-                new((-k_DefaultBuildingWidth - buildingWidthDiff) * halfBoundingBoxMultiplier, (-k_DefaultBuildingDepth - buildingDepthDiff) * halfBoundingBoxMultiplier),
-                new((-k_DefaultBuildingWidth - buildingWidthDiff) * halfBoundingBoxMultiplier, (k_DefaultBuildingDepth + buildingDepthDiff) * halfBoundingBoxMultiplier),
-                new((k_DefaultBuildingWidth + buildingWidthDiff) * halfBoundingBoxMultiplier, (k_DefaultBuildingDepth + buildingDepthDiff) * halfBoundingBoxMultiplier)
-            };
+                throw new InvalidOperationException("Facade planner does not support residence facade plans.");
+            }
+
+            if (randomSeed.HasValue)
+            {
+                return residencePlanner.CreateResidenceFacadePlan(foundationPolygon, m_Config, inBuildingWidth, inBuildingDepth, randomSeed.Value);
+            }
+
+            return residencePlanner.CreateResidenceFacadePlan(foundationPolygon, m_Config, inBuildingWidth, inBuildingDepth);
+        }
+
+        public void GenerateMeshWithResidenceFacadePlan(int inLodNum, float inBuildingWidth, float inBuildingDepth, ResidenceFacadePlan residenceFacadePlan)
+        {
+            GenerateMeshInternal(inLodNum, inBuildingWidth, inBuildingDepth, residenceFacadePlan);
+        }
+
+        private void GenerateMeshInternal(int inLodNum, float inBuildingWidth, float inBuildingDepth, ResidenceFacadePlan residenceFacadePlan)
+        {
+            CopySettingsToConfig(inLodNum);
+            List<Vector2> lsFoundationPolygonVertex = CreateFoundationPolygon(inBuildingWidth, inBuildingDepth);
 
             try
             {
@@ -186,7 +165,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Runtime
                     {
                         MeshFilter meshFilter = facadesObject.GetComponent<MeshFilter>();
                         MeshRenderer meshRenderer = facadesObject.GetComponent<MeshRenderer>();
-                        (CompoundMeshDraft, float) generatedResult = generator.GenerateFacadesMesh(lsFoundationPolygonVertex, m_Config);
+                        (CompoundMeshDraft, float) generatedResult = GenerateFacadesMesh(generator, lsFoundationPolygonVertex, residenceFacadePlan);
                         CompoundMeshDraft facadesDraft = generatedResult.Item1;
                         facadesHeight = generatedResult.Item2;
                         Mesh mesh = facadesDraft.ToMeshWithSubMeshes();
@@ -244,6 +223,91 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Runtime
             {
                 Debug.LogException(e);
             }
+        }
+
+        private void CopySettingsToConfig(int inLodNum)
+        {
+            m_Config.buildingType = buildingType;
+            m_Config.buildingHeight = buildingHeight;
+            m_Config.useTexture = useTexture;
+
+            m_Config.skyscraperCondominiumParams = skyscraperCondominiumParams;
+            m_Config.skyscraperCondominiumVertexColorPalette = skyscraperCondominiumVertexColorPalette;
+            m_Config.skyscraperCondominiumVertexColorMaterialPalette = skyscraperCondominiumVertexColorMaterialPalette;
+            m_Config.skyscraperCondominiumMaterialPalette = skyscraperCondominiumMaterialPalette;
+
+            m_Config.officeBuildingParams = officeBuildingParams;
+            m_Config.officeBuildingVertexColorPalette = officeBuildingVertexColorPalette;
+            m_Config.officeBuildingVertexColorMaterialPalette = officeBuildingVertexColorMaterialPalette;
+            m_Config.officeBuildingMaterialPalette = officeBuildingMaterialPalette;
+
+            m_Config.residenceParams = residenceParams;
+            m_Config.residenceVertexColorPalette = residenceVertexColorPalette;
+            m_Config.residenceVertexColorMaterialPalette = residenceVertexColorMaterialPalette;
+            m_Config.residenceMaterialPalette = residenceMaterialPalette;
+
+            m_Config.conveniParams = conveniParams;
+            m_Config.conveniVertexColorPalette = conveniVertexColorPalette;
+            m_Config.conveniVertexColorMaterialPalette = conveniVertexColorMaterialPalette;
+            m_Config.conveniMaterialPalette = conveniMaterialPalette;
+
+            m_Config.commercialFacilityParams = commercialFacilityParams;
+            m_Config.commercialFacilityVertexColorPalette = commercialFacilityVertexColorPalette;
+            m_Config.commercialFacilityVertexColorMaterialPalette = commercialFacilityVertexColorMaterialPalette;
+            m_Config.commercialFacilityMaterialPalette = commercialFacilityMaterialPalette;
+
+            m_Config.hotelParams = hotelParams;
+            m_Config.hotelVertexColorPalette = hotelVertexColorPalette;
+            m_Config.hotelVertexColorMaterialPalette = hotelVertexColorMaterialPalette;
+            m_Config.hotelMaterialPalette = hotelMaterialPalette;
+
+            m_Config.factoryParams = factoryParams;
+            m_Config.factoryVertexColorPalette = factoryVertexColorPalette;
+            m_Config.factoryVertexColorMaterialPalette = factoryVertexColorMaterialPalette;
+            m_Config.factoryMaterialPalette = factoryMaterialPalette;
+
+            m_Config.m_ComplexBuildingPlannerParams = m_ComplexBuildingPlannerParams;
+            m_Config.complexBuildingParams = complexBuildingParams;
+            m_Config.complexSkyscraperCondominiumBuildingParams = complexSkyscraperCondominiumBuildingParams;
+            m_Config.complexOfficeBuildingParams = complexOfficeBuildingParams;
+            m_Config.complexHotelParams = complexHotelParams;
+            m_Config.complexHotelShaderParams = complexHotelShaderParams;
+            m_Config.complexBuildingVertexColorPalette = complexBuildingVertexColorPalette;
+            m_Config.complexBuildingVertexColorMaterialPalette = complexBuildingVertexColorMaterialPalette;
+            m_Config.complexBuildingMaterialPalette = complexBuildingMaterialPalette;
+
+            m_Config.lodNum = inLodNum;
+        }
+
+        private static List<Vector2> CreateFoundationPolygon(float inBuildingWidth, float inBuildingDepth)
+        {
+            float buildingWidthDiff = (inBuildingWidth - k_DefaultBuildingWidth) * 1f;
+            float buildingDepthDiff = (inBuildingDepth - k_DefaultBuildingDepth) * 1f;
+            const float halfBoundingBoxMultiplier = 0.5f;
+            return new List<Vector2>
+            {
+                new((k_DefaultBuildingWidth + buildingWidthDiff) * halfBoundingBoxMultiplier, (-k_DefaultBuildingDepth - buildingDepthDiff) * halfBoundingBoxMultiplier),
+                new((-k_DefaultBuildingWidth - buildingWidthDiff) * halfBoundingBoxMultiplier, (-k_DefaultBuildingDepth - buildingDepthDiff) * halfBoundingBoxMultiplier),
+                new((-k_DefaultBuildingWidth - buildingWidthDiff) * halfBoundingBoxMultiplier, (k_DefaultBuildingDepth + buildingDepthDiff) * halfBoundingBoxMultiplier),
+                new((k_DefaultBuildingWidth + buildingWidthDiff) * halfBoundingBoxMultiplier, (k_DefaultBuildingDepth + buildingDepthDiff) * halfBoundingBoxMultiplier)
+            };
+        }
+
+        private (CompoundMeshDraft, float) GenerateFacadesMesh(BuildingGenerator generator, List<Vector2> foundationPolygon, ResidenceFacadePlan residenceFacadePlan)
+        {
+            if (residenceFacadePlan == null)
+            {
+                return generator.GenerateFacadesMesh(foundationPolygon, m_Config);
+            }
+
+            if (facadePlanner is not ProceduralFacadeResidencePlanner residencePlanner)
+            {
+                throw new InvalidOperationException("Facade planner does not support residence facade plans.");
+            }
+
+            List<ILayout> facadeLayouts = residencePlanner.Plan(foundationPolygon, m_Config, residenceFacadePlan);
+            CompoundMeshDraft facadesDraft = facadeConstructor.BuildMesh(foundationPolygon, facadeLayouts);
+            return (facadesDraft, facadeLayouts[0].height);
         }
 
         public override bool CanPlaceOnOtherSandboxObject()
