@@ -21,8 +21,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Common_Trunk_01_MAT
-  m_Shader: {fileID: -6465566751694194690, guid: 7b57e3703034747439938cab09094439,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 7b57e3703034747439938cab09094439, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _DISABLE_SSR_TRANSPARENT
@@ -40,6 +41,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -107,6 +109,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: fa12be8d8a0d8054cb9bf64d2ca17ab9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_3a7e1fe0936a508b9c23774ae461e05c_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: fa12be8d8a0d8054cb9bf64d2ca17ab9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2DLOD_61155119ab26416f875daf3cdfe78fc4_Texture_1:
         m_Texture: {fileID: 2800000, guid: f0a0b8554e5911a44ac1957266194808, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -120,6 +126,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_11415789ba934d368c4f2580d79e767d_Texture_1:
+        m_Texture: {fileID: 2800000, guid: f0a0b8554e5911a44ac1957266194808, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_11415789ba934d368c4f2580d79e767d_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: f0a0b8554e5911a44ac1957266194808, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -207,6 +217,7 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _EnvironmentReflections: 1
+    - _ExcludeFromTUAndAA: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.4472136
     - _GlossyReflections: 1
@@ -220,6 +231,7 @@ Material:
     - _Mode: 0
     - _NormalScale: 1
     - _OcclusionStrength: 1
+    - _Opacity: 1
     - _OpaqueCullMode: 2
     - _Parallax: 0.02
     - _QueueControl: 0
@@ -244,10 +256,10 @@ Material:
     - _StencilRefGBuffer: 10
     - _StencilRefMV: 40
     - _StencilWriteMask: 6
-    - _StencilWriteMaskDepth: 8
+    - _StencilWriteMaskDepth: 9
     - _StencilWriteMaskDistortionVec: 4
-    - _StencilWriteMaskGBuffer: 14
-    - _StencilWriteMaskMV: 40
+    - _StencilWriteMaskGBuffer: 15
+    - _StencilWriteMaskMV: 41
     - _SupportDecals: 1
     - _Surface: 0
     - _SurfaceType: 0
@@ -276,8 +288,7 @@ Material:
     - _BaseColor: {r: 0.24528301, g: 0.22599974, b: 0.22599974, a: 1}
     - _BendPivot: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.24528295, g: 0.22599971, b: 0.22599971, a: 1}
-    - _Diffusion_Profile_Asset: {r: -8.695931e+30, g: -5.0949594e+31, b: -0.010710085,
-        a: -0.0000000055696536}
+    - _Diffusion_Profile_Asset: {r: -8.695931e+30, g: -5.0949594e+31, b: -0.010710085, a: -0.0000000055696536}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmmisiveColor: {r: 0, g: 0, b: 0, a: 0}
@@ -296,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 12
+  version: 13
   hdPluginSubTargetMaterialVersions:
     m_Keys: []
     m_Values: 
