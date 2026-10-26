@@ -8,8 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Common_Silver_01_MAT
-  m_Shader: {fileID: -6465566751694194690, guid: ea0c07269332af746bf9ed9f656decc1,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: ea0c07269332af746bf9ed9f656decc1, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _DETAIL_UV_SET_UV0
@@ -30,6 +31,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -272,8 +274,7 @@ Material:
     - _BaseColor: {r: 0.3301887, g: 0.3085795, b: 0.26373562, a: 1}
     - _BendPivot: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.33018863, g: 0.30857947, b: 0.2637356, a: 1}
-    - _Diffusion_Profile_Asset: {r: -3.698545e+22, g: 20.616848, b: -5.291675e-28,
-        a: -1.3520143e+18}
+    - _Diffusion_Profile_Asset: {r: -3.698545e+22, g: 20.616848, b: -5.291675e-28, a: -1.3520143e+18}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmmisiveColor: {r: 0, g: 0, b: 0, a: 0}
@@ -305,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 12
+  version: 13
   hdPluginSubTargetMaterialVersions:
     m_Keys: []
     m_Values: 
