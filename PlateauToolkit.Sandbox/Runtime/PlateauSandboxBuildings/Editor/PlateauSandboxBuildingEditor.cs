@@ -488,6 +488,7 @@ namespace PlateauToolkit.Sandbox.Runtime.PlateauSandboxBuildings.Editor
 
             if (EditorGUI.EndChangeCheck())
             {
+                Undo.RecordObject(m_Generator, "Change Ground Placement Direction");
                 m_Generator.groundPlacementDirection = placementDirection;
                 changedValue = true;
             }

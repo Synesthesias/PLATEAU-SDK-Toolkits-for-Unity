@@ -36,7 +36,8 @@ namespace PlateauToolkit.Sandbox.Runtime
         {
             get
             {
-                return Vector3.Scale(transform.localScale, billboardRoot.transform.localScale);
+                // セッターと同じく親のワールドスケール (lossyScale) を基準にする
+                return Vector3.Scale(transform.lossyScale, billboardRoot.transform.localScale);
             }
             set
             {
@@ -103,8 +104,15 @@ namespace PlateauToolkit.Sandbox.Runtime
                 return;
             }
 
-            Material mat = advertisementMaterials[0].materials[targetMaterialNumber];
-            if (mat.HasProperty(targetTextureProperty))
+            List<Material> materials = advertisementMaterials[0].materials;
+            if (materials == null || targetMaterialNumber < 0 || targetMaterialNumber >= materials.Count)
+            {
+                Debug.LogWarning($"targetMaterialNumber {targetMaterialNumber} is out of range on {gameObject.name}", this);
+                return;
+            }
+
+            Material mat = materials[targetMaterialNumber];
+            if (mat != null && mat.HasProperty(targetTextureProperty))
             {
                 // RenderTextureは設定しない
                 Texture texture = mat.GetTexture(targetTextureProperty);
@@ -148,11 +156,17 @@ namespace PlateauToolkit.Sandbox.Runtime
             AddVideoPlayer();
         }
 
-        // private void Awake()
-        // {
-        //     //billboardDefaultPosition = billboardRoot.transform.position;
-        //     //poleDefaultPosition = poleRoot.transform.position;
-        // }
+        private void Awake()
+        {
+            if (billboardRoot == null)
+            {
+                Debug.LogError($"billboardRoot is not assigned on {gameObject.name}", this);
+            }
+            if (poleRoot == null)
+            {
+                Debug.LogError($"poleRoot is not assigned on {gameObject.name}", this);
+            }
+        }
 
     }
 }
