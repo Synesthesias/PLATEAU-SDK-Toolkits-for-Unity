@@ -279,6 +279,14 @@ namespace PlateauToolkit.Rendering.Editor
         }
         void ProcessLOD1(GameObject go, MeshRenderer meshRenderer, MeshFilter meshFilter)
         {
+            // ZoomLevel 9 Lod1のマテリアルを使用している場合は専用の処理を行う
+            // 主要地物単位の場合、Materialは１つのはずなので、sharedMaterialで判定する
+            if (IsTileZl9Lod1(meshRenderer?.sharedMaterial))
+            {
+                ProcessTileZl9Lod1(go, meshRenderer, meshFilter);
+                return;
+            }
+
             Undo.RecordObject(meshRenderer, "Optimize Mesh");
             Undo.RecordObject(meshFilter, "Optimize Mesh");
 
@@ -350,6 +358,46 @@ namespace PlateauToolkit.Rendering.Editor
 
             PlateauRenderingMeshUtilities.SetRandomAlpha(meshFilter.sharedMesh);
 
+            PlateauRenderingBuildingUtilities.PlaceObstacleLightsOnBuildingCorners(go);
+            PlateauRenderingBuildingUtilities.CreatePlaneUnderBuilding(go);
+        }
+
+        /// <summary>
+        /// Tile ZoomLevel 9 Lod1 Materialかどうかの判定 (PLATEAULod1TriplanarShaderを利用しているか)
+        /// </summary>
+        /// <param name="material"></param>
+        /// <returns></returns>
+        bool IsTileZl9Lod1(Material material)
+        {
+            if (material == null || material.shader == null)
+                return false;
+            string shaderName = material.shader.name;
+            return shaderName.Contains("Lod1Triplanar"); // Shader Graphs/PLATEAULod1TriplanarShader or Weather/Building_Lod1Triplanar_URP or Weather/Building_Lod1Triplanar_HDRP
+        }
+
+        /// <summary>
+        /// Tile ZoomLevel 9 Lod1 Material用処理 (PLATEAULod1TriplanarShader)
+        /// </summary>
+        /// <param name="go"></param>
+        /// <param name="meshRenderer"></param>
+        /// <param name="meshFilter"></param>
+        internal void ProcessTileZl9Lod1(GameObject go, MeshRenderer meshRenderer, MeshFilter meshFilter)
+        {
+            if (go == null || meshRenderer == null || meshFilter == null || meshFilter.sharedMesh == null)
+                return;
+            if (go.GetComponent<Processed>() != null)
+                return;
+
+            Undo.RecordObject(meshFilter, "Optimize Mesh");
+            Undo.RecordObject(meshRenderer, "Optimize Mesh");
+
+            // Add the Processed component to the GameObject
+            Undo.AddComponent<Processed>(go);
+
+            Bounds boundingBox = meshRenderer.bounds;
+            PlateauRenderingBuildingUtilities.SetBuildingVertexColorForWindow(meshFilter.sharedMesh, boundingBox, go);
+
+            PlateauRenderingBuildingUtilities.ChangeTileZL9LOD1BuildingShader(go);
             PlateauRenderingBuildingUtilities.PlaceObstacleLightsOnBuildingCorners(go);
             PlateauRenderingBuildingUtilities.CreatePlaneUnderBuilding(go);
         }
